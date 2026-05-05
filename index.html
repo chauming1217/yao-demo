@@ -1,0 +1,2681 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>曜 · YAO — 命理新詮 / Modern Eastern Divination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Italiana&family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* GREEN-DOMINANT × INK × CHAMPAGNE GOLD — softened transitions */
+    --bg:#0E4534;             /* primary deep emerald jade */
+    --bg-deep:#0A3528;        /* darker emerald */
+    --bg-soft:#11553F;        /* lighter emerald (subtle) */
+    --bg-shadow:#062018;      /* deepest emerald shadow */
+    --ink:#0F1812;            /* GREEN-tinted ink (was #0A0B0A) — bridges to emerald smoothly */
+    --ink-deep:#0A120D;       /* deeper warm ink */
+    --ink-soft:#16221A;       /* lighter green-ink for gentler contrast */
+    --gold:#B89760;           /* antique brass gold */
+    --gold-bright:#D9B36F;    /* champagne gold */
+    --gold-deep:#8B6F3F;      /* aged gold */
+    --champagne:#F0EBDA;      /* ivory champagne text */
+    --champagne-dim:#B0A88A;  /* faded champagne */
+    --champagne-faint:#7A7461; /* deep faded olive */
+    --rule:rgba(240,235,218,.12);
+    --rule-strong:rgba(240,235,218,.22);
+    --rule-gold:rgba(184,151,96,.4);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--champagne);
+    font-family:'Cormorant','Noto Serif TC',serif;
+    font-weight:400;
+    font-size:17px;
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.005em;
+  }
+
+  /* Grain texture */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:100;
+    pointer-events:none;
+    opacity:.07;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+
+  /* Speakeasy lighting — moody radial glow */
+  body::after{
+    content:'';
+    position:fixed;
+    inset:0;
+    z-index:99;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse at top right,rgba(217,179,111,.10),transparent 50%),
+      radial-gradient(ellipse at bottom left,rgba(0,0,0,.4),transparent 60%);
+  }
+
+  /* Constellation watermark — faint gold on jade */
+  .constellation{
+    position:fixed;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:140vmax;height:140vmax;
+    z-index:0;
+    pointer-events:none;
+    opacity:.16;
+    animation:rotate 280s linear infinite;
+  }
+  @keyframes rotate{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+  /* Tiny gold/champagne star particles */
+  .starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .star{
+    position:absolute;
+    border-radius:50%;
+    opacity:0;
+    animation:twinkle 5s infinite ease-in-out;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0;transform:scale(.5)}
+    50%{opacity:var(--max-op,.6);transform:scale(1)}
+  }
+
+  /* Countdown strip — under nav */
+  .countdown-strip{
+    position:fixed;
+    top:74px;left:0;right:0;
+    z-index:49;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:24px;
+    padding:10px 6vw;
+    background:linear-gradient(to right,rgba(10,18,13,.0),rgba(10,18,13,.85) 30%,rgba(10,18,13,.85) 70%,rgba(10,18,13,.0));
+    backdrop-filter:blur(12px);
+    font-family:'Italiana',serif;
+    font-size:10.5px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--champagne-dim);
+    border-bottom:1px solid var(--rule-gold);
+    transition:opacity .5s ease;
+  }
+  .countdown-strip .cd-label{color:var(--gold)}
+  .countdown-strip .cd-divider{
+    width:1px;height:14px;
+    background:var(--rule-gold);
+  }
+  .countdown-strip .cd-name{
+    font-family:'Noto Serif TC',serif;
+    color:var(--gold-bright);
+    font-size:13px;
+    letter-spacing:.18em;
+    font-weight:400;
+  }
+  .countdown-strip .cd-days{
+    color:var(--champagne);
+    letter-spacing:.32em;
+  }
+  .countdown-strip .cd-days .num{
+    font-family:'Cormorant',serif;
+    font-size:18px;
+    color:var(--gold-bright);
+    margin:0 4px;
+    font-weight:500;
+  }
+  .countdown-strip .cd-cta{
+    color:var(--gold-bright);
+    text-decoration:none;
+    transition:gap .3s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .countdown-strip .cd-cta:hover{gap:14px}
+  @media (max-width:780px){
+    .countdown-strip{font-size:9px;gap:14px;padding:8px 4vw}
+    .countdown-strip .cd-cta{display:none}
+  }
+
+  /* Nav */
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:24px 6vw;
+    z-index:50;
+    font-family:'Italiana',serif;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    font-size:10.5px;
+    backdrop-filter:blur(16px);
+    background:linear-gradient(to bottom,rgba(14,69,52,.85),rgba(14,69,52,.35));
+    border-bottom:1px solid var(--rule-gold);
+  }
+  nav .logo{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:24px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    line-height:1;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  nav .logo small{
+    font-family:'Italiana',serif;
+    font-size:10px;
+    color:var(--champagne-dim);
+    letter-spacing:.4em;
+    margin-left:6px;
+    border-left:1px solid var(--rule-strong);
+    padding-left:14px;
+  }
+  nav ul{display:flex;gap:34px;list-style:none}
+  nav a{
+    color:var(--champagne-dim);
+    text-decoration:none;
+    transition:color .35s ease;
+    position:relative;
+  }
+  nav a::after{
+    content:'';
+    position:absolute;
+    bottom:-6px;left:50%;
+    width:0;height:1px;
+    background:var(--gold-bright);
+    transition:all .4s ease;
+    transform:translateX(-50%);
+  }
+  nav a:hover{color:var(--gold-bright)}
+  nav a:hover::after{width:100%}
+
+  /* HERO — emerald LEFT × ink RIGHT (reversed) */
+  .hero{
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    align-items:stretch;
+    padding-top:128px;
+  }
+  .hero-left{
+    background:var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 6vw;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-left::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 40% 50%,rgba(217,179,111,.18),transparent 55%);
+    pointer-events:none;
+  }
+  .hero-right{
+    background:var(--ink);
+    display:flex;
+    align-items:center;
+    padding:80px 6vw;
+    position:relative;
+    overflow:hidden;
+    border-left:1px solid var(--gold);
+  }
+  .hero-right::before{
+    content:'';
+    position:absolute;
+    top:0;bottom:0;left:0;
+    width:1px;
+    background:linear-gradient(to bottom,transparent,var(--gold-bright),transparent);
+    opacity:.7;
+  }
+  .vertical-chi{
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    font-family:'Noto Serif TC',serif;
+    font-weight:200;
+    font-size:clamp(80px,9.5vw,160px);
+    letter-spacing:.32em;
+    line-height:1;
+    color:var(--champagne);
+    padding:20px 0;
+    position:relative;
+    text-shadow:0 0 60px rgba(217,179,111,.3);
+    z-index:2;
+  }
+  .vertical-chi::before{
+    content:'';
+    position:absolute;
+    top:-30px;left:50%;
+    width:1px;height:30px;
+    background:linear-gradient(to bottom,transparent,var(--gold-bright));
+    transform:translateX(-50%);
+  }
+  .vertical-chi::after{
+    content:'';
+    position:absolute;
+    bottom:-30px;left:50%;
+    width:1px;height:30px;
+    background:linear-gradient(to top,transparent,var(--gold-bright));
+    transform:translateX(-50%);
+  }
+  .hero-text{max-width:560px;position:relative;z-index:2}
+  .eyebrow{
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--gold-bright);
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:32px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:48px;height:1px;
+    background:var(--gold-bright);
+  }
+  .hero-title-en{
+    font-family:'Cormorant',serif;
+    font-weight:300;
+    font-size:clamp(46px,5.4vw,80px);
+    line-height:1.05;
+    letter-spacing:-.02em;
+    color:var(--champagne);
+    margin-bottom:24px;
+  }
+  .hero-title-en em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--gold-bright);
+  }
+  .hero-sub{
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:19px;
+    line-height:1.85;
+    color:var(--champagne-dim);
+    margin-bottom:48px;
+    max-width:480px;
+  }
+  .hero-actions{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    padding:18px 30px;
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:all .4s ease;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:var(--ink);
+    border-color:var(--gold);
+  }
+  .btn-primary:hover{
+    background:transparent;
+    color:var(--gold-bright);
+    transform:translateY(-2px);
+  }
+  .btn-ghost{
+    color:var(--champagne);
+    border-color:var(--rule-strong);
+  }
+  .btn-ghost:hover{
+    color:var(--gold-bright);
+    border-color:var(--gold);
+  }
+  .btn .arrow{display:inline-block;transition:transform .4s ease}
+  .btn:hover .arrow{transform:translateX(6px)}
+
+  /* Scroll cue */
+  .scroll-cue{
+    position:absolute;
+    bottom:38px;left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    font-family:'Italiana',serif;
+    font-size:9.5px;
+    letter-spacing:.45em;
+    color:var(--champagne-dim);
+    text-transform:uppercase;
+    z-index:3;
+  }
+  .scroll-cue .line{
+    width:1px;height:40px;
+    background:linear-gradient(to bottom,var(--gold-bright),transparent);
+    animation:line-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes line-pulse{
+    0%,100%{opacity:.3;transform:scaleY(.8)}
+    50%{opacity:1;transform:scaleY(1.2)}
+  }
+
+  /* Section base */
+  section{position:relative;z-index:1;padding:160px 6vw}
+  .section-num{
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .section-num::after{
+    content:'';
+    width:60px;height:1px;
+    background:var(--rule-gold);
+  }
+  .section-title{
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:clamp(40px,5vw,68px);
+    line-height:1.1;
+    letter-spacing:.04em;
+    color:var(--champagne);
+    margin-bottom:28px;
+  }
+  .section-title em{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    font-weight:300;
+    display:block;
+    font-size:.55em;
+    letter-spacing:.02em;
+    margin-top:14px;
+    color:var(--champagne-dim);
+  }
+
+  /* Manifesto */
+  .manifesto-grid{
+    display:grid;
+    grid-template-columns:1fr 1.4fr;
+    gap:clamp(60px,8vw,120px);
+    max-width:1280px;
+    margin:0 auto;
+    align-items:start;
+  }
+  .manifesto-tenets{display:grid;gap:60px}
+  .tenet{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:40px;
+    padding-bottom:60px;
+    border-bottom:1px solid var(--rule);
+  }
+  .tenet:last-child{border-bottom:none;padding-bottom:0}
+  .tenet .num{
+    font-family:'Italiana',serif;
+    font-size:42px;
+    color:var(--gold-bright);
+    font-weight:300;
+    line-height:1;
+    padding-top:6px;
+    letter-spacing:.05em;
+  }
+  .tenet h3{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:24px;
+    color:var(--champagne);
+    margin-bottom:14px;
+    letter-spacing:.05em;
+  }
+  .tenet h3 em{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--champagne-faint);
+    margin-left:14px;
+    font-weight:400;
+    letter-spacing:.02em;
+  }
+  .tenet p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:16.5px;
+    line-height:1.85;
+  }
+
+  /* Services - mostly black against jade context */
+  .services-section{
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 30%,var(--bg-deep) 70%,var(--bg) 100%);
+    position:relative;
+  }
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    margin-top:80px;
+    max-width:1280px;
+    margin-left:auto;
+    margin-right:auto;
+    border:1px solid var(--rule-gold);
+  }
+  .service{
+    padding:60px 40px 50px;
+    transition:all .4s ease;
+    position:relative;
+    cursor:pointer;
+    border-right:1px solid var(--rule-gold);
+  }
+  .service:last-child{border-right:none}
+  .service-1{background:var(--ink)}
+  .service-2{background:var(--bg-shadow)}
+  .service-3{background:var(--ink)}
+  .service:hover{transform:translateY(-4px)}
+  .service .tag{
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:30px;
+  }
+  .service-icon{margin:30px 0;color:var(--gold-bright);opacity:.85}
+  .service h3{
+    font-family:'Noto Serif TC',serif;
+    font-weight:400;
+    font-size:32px;
+    color:var(--champagne);
+    margin-bottom:8px;
+    letter-spacing:.06em;
+  }
+  .service .sub{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--champagne-faint);
+    font-size:18px;
+    margin-bottom:24px;
+  }
+  .service p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:15px;
+    line-height:1.8;
+    margin-bottom:30px;
+    min-height:108px;
+  }
+  .service-meta{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:24px 0;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    margin-bottom:30px;
+  }
+  .service-meta .row{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+  }
+  .service-meta .label{color:var(--champagne-faint)}
+  .service-meta .val{color:var(--champagne)}
+  .service-meta .price{color:var(--gold-bright);font-size:13px}
+  .service .more{
+    font-family:'Italiana',serif;
+    font-size:10.5px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    transition:gap .4s ease;
+  }
+  .service .more:hover{gap:18px}
+
+  /* OBJECTS — Sacred objects e-commerce showcase */
+  .objects-section{
+    background:var(--bg);
+    position:relative;
+    overflow:hidden;
+  }
+  .objects-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 70% 30%,rgba(217,179,111,.06),transparent 60%);
+    pointer-events:none;
+  }
+  .objects-header{
+    max-width:1280px;
+    margin:0 auto 80px;
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:80px;
+    align-items:end;
+    position:relative;
+    z-index:1;
+  }
+  .objects-header p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:17px;
+    line-height:1.85;
+  }
+  .objects-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--rule-gold);
+    max-width:1280px;
+    margin:0 auto;
+    border:1px solid var(--rule-gold);
+    position:relative;
+    z-index:1;
+  }
+  .object{
+    background:var(--bg-deep);
+    padding:50px 30px;
+    position:relative;
+    transition:background .5s ease;
+    cursor:pointer;
+  }
+  .object:hover{background:var(--ink)}
+  .object .tag{
+    font-family:'Italiana',serif;
+    font-size:9.5px;
+    letter-spacing:.42em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:24px;
+    display:block;
+  }
+  .object .thumb{
+    aspect-ratio:1;
+    background:
+      radial-gradient(circle at 35% 30%,rgba(217,179,111,.18),transparent 55%),
+      radial-gradient(circle at center,rgba(20,40,30,.6),var(--ink-deep) 80%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:30px;
+    border:1px solid var(--rule);
+    position:relative;
+    overflow:hidden;
+    transition:all .5s ease;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.4);
+  }
+  .object:hover .thumb{
+    border-color:var(--gold);
+    box-shadow:inset 0 0 30px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.4);
+  }
+  .object .thumb svg{
+    width:78%;
+    height:78%;
+    transition:transform .6s ease;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  }
+  .object:hover .thumb svg{transform:scale(1.06)}
+  .object h4{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:21px;
+    color:var(--champagne);
+    margin-bottom:6px;
+    letter-spacing:.06em;
+  }
+  .object .obj-sub{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--champagne-faint);
+    font-size:14.5px;
+    margin-bottom:18px;
+  }
+  .object p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:13.5px;
+    line-height:1.7;
+    margin-bottom:24px;
+    min-height:80px;
+  }
+  .object .price-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+  }
+  .object .price{
+    font-family:'Cormorant',serif;
+    color:var(--gold-bright);
+    font-size:20px;
+    font-weight:500;
+    letter-spacing:.04em;
+  }
+  .object .price small{
+    font-family:'Italiana',serif;
+    font-size:9.5px;
+    color:var(--champagne-faint);
+    letter-spacing:.4em;
+    margin-left:4px;
+  }
+  .object .add{
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:gap .3s ease;
+  }
+  .object .add:hover{gap:14px}
+
+  .objects-footer{
+    max-width:1280px;
+    margin:60px auto 0;
+    text-align:center;
+  }
+
+  /* Calendar — Seasonal SKUs */
+  .calendar-section{
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 30%,var(--bg-deep) 70%,var(--bg) 100%);
+    position:relative;
+  }
+  .calendar-header{
+    max-width:1280px;
+    margin:0 auto 80px;
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:80px;
+    align-items:end;
+    position:relative;
+    z-index:1;
+  }
+  .calendar-header p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:17px;
+    line-height:1.85;
+  }
+  .calendar-quarter-label{
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 0 14px 4px;
+    font-family:'Italiana',serif;
+    font-size:10.5px;
+    letter-spacing:.45em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .calendar-quarter-label::after{
+    content:'';
+    flex:1;height:1px;
+    background:linear-gradient(to right,var(--rule-gold),transparent);
+  }
+  .calendar-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--rule-gold);
+    max-width:1280px;
+    margin:0 auto 36px;
+    border:1px solid var(--rule-gold);
+  }
+  .cal-item{
+    background:var(--ink-soft);
+    padding:36px 28px 30px;
+    position:relative;
+    transition:all .4s ease;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+  }
+  .cal-item::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:1px;
+    background:linear-gradient(to right,transparent 10%,var(--gold-bright) 50%,transparent 90%);
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .cal-item::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 30% 0%,rgba(217,179,111,.08),transparent 60%);
+    opacity:0;
+    transition:opacity .6s ease;
+    pointer-events:none;
+  }
+  .cal-item:hover{background:var(--ink);transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+  .cal-item:hover::before,.cal-item:hover::after{opacity:1}
+  .cal-item:hover .cal-badge{
+    transform:rotate(-8deg) scale(1.08);
+    border-color:var(--gold-bright);
+    box-shadow:0 0 24px rgba(217,179,111,.35),inset 0 0 12px rgba(217,179,111,.15);
+  }
+  .cal-item:hover .cal-badge .day{color:#FFEEC8}
+  .cal-badge{transition:all .5s cubic-bezier(.4,.0,.2,1)}
+  .cal-item:hover h4{color:var(--gold-bright);transition:color .4s ease}
+  .cal-item:hover .cal-sku-name{letter-spacing:.06em;transition:letter-spacing .4s ease}
+  .cal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
+  }
+  .cal-badge{
+    width:62px;height:62px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at 35% 35%,rgba(217,179,111,.12),transparent 70%);
+  }
+  .cal-badge .month{
+    font-family:'Italiana',serif;
+    font-size:8.5px;
+    letter-spacing:.3em;
+    color:var(--gold);
+    text-transform:uppercase;
+  }
+  .cal-badge .day{
+    font-family:'Cormorant',serif;
+    font-size:24px;
+    color:var(--gold-bright);
+    line-height:1;
+    font-weight:500;
+  }
+  .cal-season{
+    font-family:'Italiana',serif;
+    font-size:9.5px;
+    letter-spacing:.35em;
+    color:var(--champagne-faint);
+    text-transform:uppercase;
+    padding-top:6px;
+    text-align:right;
+  }
+  .cal-season .ch{
+    display:block;
+    font-family:'Noto Serif TC',serif;
+    font-size:13px;
+    color:var(--gold-bright);
+    letter-spacing:.2em;
+    margin-bottom:4px;
+    font-weight:300;
+  }
+  .cal-item h4{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:24px;
+    color:var(--champagne);
+    margin-bottom:4px;
+    letter-spacing:.06em;
+  }
+  .cal-item .name-en{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--champagne-faint);
+    font-size:14px;
+    margin-bottom:18px;
+    letter-spacing:.02em;
+  }
+  .cal-item .meaning{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:14px;
+    line-height:1.75;
+    margin-bottom:24px;
+    flex:1;
+  }
+  .cal-sku{
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:14px;
+  }
+  .cal-sku-info{flex:1;min-width:0}
+  .cal-sku-label{
+    font-family:'Italiana',serif;
+    font-size:9px;
+    letter-spacing:.4em;
+    color:var(--champagne-faint);
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .cal-sku-name{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:14.5px;
+    color:var(--gold-bright);
+    letter-spacing:.04em;
+  }
+  .cal-sku-price{
+    font-family:'Cormorant',serif;
+    font-size:18px;
+    color:var(--champagne);
+    letter-spacing:.04em;
+    white-space:nowrap;
+  }
+
+  /* Seasonal Box — featured subscription band */
+  .seasonal-box-section{
+    background:linear-gradient(180deg,var(--bg) 0%,var(--ink-soft) 50%,var(--bg) 100%);
+    padding:140px 6vw;
+    position:relative;
+    overflow:hidden;
+  }
+  .seasonal-box-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(217,179,111,.08),transparent 50%),
+      radial-gradient(circle at 80% 70%,rgba(15,77,58,.3),transparent 50%);
+    pointer-events:none;
+  }
+  .seasonal-box-inner{
+    max-width:1280px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:80px;
+    align-items:center;
+    position:relative;
+    z-index:1;
+    border:1px solid var(--rule-gold);
+    padding:80px;
+    background:linear-gradient(135deg,var(--ink) 0%,var(--bg-deep) 100%);
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
+  }
+  .seasonal-box-inner::before,
+  .seasonal-box-inner::after{
+    content:'';
+    position:absolute;
+    width:36px;height:36px;
+    border:1px solid var(--gold-bright);
+  }
+  .seasonal-box-inner::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .seasonal-box-inner::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .seasonal-box-text .badge{
+    display:inline-block;
+    padding:6px 14px;
+    font-family:'Italiana',serif;
+    font-size:9.5px;
+    letter-spacing:.45em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    border:1px solid var(--gold);
+    margin-bottom:28px;
+  }
+  .seasonal-box-text h3{
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:clamp(34px,4vw,52px);
+    line-height:1.15;
+    letter-spacing:.04em;
+    color:var(--champagne);
+    margin-bottom:18px;
+  }
+  .seasonal-box-text h3 em{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--gold-bright);
+    font-weight:300;
+  }
+  .seasonal-box-text > p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:16px;
+    line-height:1.85;
+    margin-bottom:36px;
+  }
+  .box-features{
+    display:grid;
+    gap:14px;
+    margin-bottom:36px;
+  }
+  .box-feature{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px;
+    align-items:baseline;
+    padding:14px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .box-feature:last-child{border-bottom:none}
+  .box-feature .season{
+    font-family:'Noto Serif TC',serif;
+    font-size:18px;
+    color:var(--gold-bright);
+    letter-spacing:.18em;
+    width:48px;
+  }
+  .box-feature .contents{
+    font-family:'Noto Serif TC',serif;
+    color:var(--champagne-dim);
+    font-weight:300;
+    font-size:14.5px;
+    line-height:1.65;
+  }
+  .seasonal-box-pricing{
+    display:flex;
+    align-items:baseline;
+    gap:22px;
+    margin-bottom:30px;
+    padding-top:22px;
+    border-top:1px solid var(--rule-gold);
+  }
+  .seasonal-box-pricing .price{
+    font-family:'Cormorant',serif;
+    font-size:56px;
+    color:var(--gold-bright);
+    line-height:1;
+    font-weight:400;
+    letter-spacing:.02em;
+  }
+  .seasonal-box-pricing .price small{
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.4em;
+    color:var(--champagne-dim);
+    margin-left:4px;
+  }
+  .seasonal-box-pricing .save{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--champagne-dim);
+    font-size:14px;
+  }
+  .seasonal-box-visual{
+    position:relative;
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .seasonal-box-visual svg{
+    width:100%;
+    height:100%;
+    filter:drop-shadow(0 12px 30px rgba(0,0,0,.5));
+  }
+
+  /* Practitioners */
+  .practitioners-section{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 25%,var(--bg-deep) 75%,var(--ink-soft) 100%)}
+  .practitioners-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:60px;
+    margin-top:80px;
+    max-width:1280px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .practitioner{position:relative}
+  .practitioner .portrait{
+    aspect-ratio:3/4;
+    background:linear-gradient(135deg,var(--bg-shadow),var(--ink));
+    border:1px solid var(--rule-gold);
+    margin-bottom:28px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .6s ease;
+  }
+  .practitioner:hover .portrait{transform:translateY(-8px)}
+  .practitioner .portrait::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,transparent 60%,rgba(6,32,24,.7));
+  }
+  .practitioner .portrait .glyph{
+    font-family:'Noto Serif TC',serif;
+    font-weight:200;
+    font-size:140px;
+    color:var(--gold-bright);
+    opacity:.32;
+    letter-spacing:0;
+  }
+  .practitioner .badge{
+    position:absolute;
+    top:20px;left:20px;
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.35em;
+    color:var(--champagne);
+    text-transform:uppercase;
+    background:rgba(10,11,10,.7);
+    padding:8px 14px;
+    backdrop-filter:blur(8px);
+    border:1px solid var(--rule-gold);
+  }
+  .practitioner h4{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:24px;
+    color:var(--champagne);
+    margin-bottom:6px;
+    letter-spacing:.06em;
+  }
+  .practitioner .role{
+    font-family:'Cormorant',serif;
+    font-style:italic;
+    color:var(--gold-bright);
+    font-size:16px;
+    margin-bottom:14px;
+    letter-spacing:.02em;
+  }
+  .practitioner .bio{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:15px;
+    line-height:1.7;
+  }
+
+  /* Foundation - warm green-ink section (gentle contrast) */
+  .foundation{
+    background:linear-gradient(180deg,var(--ink-soft) 0%,var(--ink) 25%,var(--ink) 75%,var(--ink-soft) 100%);
+    overflow:hidden;
+    position:relative;
+  }
+  .foundation::after{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:1px;
+    background:linear-gradient(to right,transparent,var(--gold) 30%,var(--gold) 70%,transparent);
+    opacity:.5;
+  }
+  .foundation::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 80% 20%,rgba(14,69,52,.4),transparent 60%),
+      radial-gradient(circle at 20% 80%,rgba(217,179,111,.06),transparent 60%);
+    pointer-events:none;
+  }
+  .foundation-inner{
+    max-width:1280px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+    position:relative;
+    z-index:1;
+  }
+  .foundation-visual{
+    position:relative;
+    aspect-ratio:1;
+    border:1px solid var(--gold-bright);
+    padding:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at center,rgba(14,69,52,.4),rgba(10,11,10,.4) 70%);
+  }
+  .foundation-visual .seal{
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:clamp(60px,8vw,120px);
+    color:var(--gold-bright);
+    text-align:center;
+    line-height:1.1;
+    letter-spacing:.2em;
+  }
+  .foundation-visual .seal small{
+    display:block;
+    font-family:'Italiana',serif;
+    font-size:14px;
+    color:var(--champagne);
+    letter-spacing:.4em;
+    margin-top:24px;
+    text-transform:uppercase;
+    opacity:.7;
+  }
+  .foundation-visual::before,
+  .foundation-visual::after{
+    content:'';
+    position:absolute;
+    width:30px;height:30px;
+    border:1px solid var(--gold-bright);
+  }
+  .foundation-visual::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .foundation-visual::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .foundation-text .stat{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    padding:24px 0;
+    border-bottom:1px solid var(--rule-gold);
+  }
+  .foundation-text .stat:last-of-type{border-bottom:none}
+  .foundation-text .stat .num{
+    font-family:'Cormorant',serif;
+    font-weight:300;
+    font-size:54px;
+    color:var(--gold-bright);
+    line-height:1;
+  }
+  .foundation-text .stat .label{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:15px;
+  }
+  .foundation-text > p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:17px;
+    line-height:1.85;
+    margin-bottom:36px;
+  }
+
+  /* Booking */
+  .booking-section{background:linear-gradient(180deg,var(--ink-soft) 0%,var(--bg-deep) 35%,var(--bg) 100%)}
+  .booking-grid{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:100px;
+    max-width:1280px;
+    margin:80px auto 0;
+    align-items:start;
+  }
+  .booking-form{display:grid;gap:28px}
+  .form-group{display:grid;gap:10px}
+  .form-group label{
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.4em;
+    color:var(--champagne-dim);
+    text-transform:uppercase;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--rule-strong);
+    color:var(--champagne);
+    padding:12px 0;
+    font-family:'Cormorant','Noto Serif TC',serif;
+    font-size:18px;
+    transition:border-color .3s ease;
+    outline:none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus{border-bottom-color:var(--gold-bright)}
+  .form-group select option{background:var(--bg);color:var(--champagne)}
+  .form-group textarea{resize:vertical;min-height:80px}
+  .booking-aside{
+    border-left:1px solid var(--rule);
+    padding-left:60px;
+  }
+  .booking-aside h4{
+    font-family:'Italiana',serif;
+    font-size:11px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .booking-aside p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    line-height:1.85;
+    margin-bottom:30px;
+  }
+  .booking-aside .contact-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px 0;
+    border-top:1px solid var(--rule);
+    font-size:14px;
+  }
+  .booking-aside .contact-row:last-child{border-bottom:1px solid var(--rule)}
+  .booking-aside .contact-row .label{
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.4em;
+    color:var(--champagne-faint);
+    text-transform:uppercase;
+    width:90px;
+  }
+  .booking-aside .contact-row .val{
+    font-family:'Cormorant','Noto Serif TC',serif;
+    color:var(--champagne);
+    flex:1;
+  }
+
+  /* Footer */
+  footer{
+    background:linear-gradient(180deg,var(--bg-deep) 0%,var(--ink) 100%);
+    padding:80px 6vw 40px;
+    position:relative;
+    z-index:1;
+  }
+  footer::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:1px;
+    background:linear-gradient(to right,transparent,var(--gold) 50%,transparent);
+    opacity:.4;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:60px;
+    max-width:1400px;
+    margin:0 auto 60px;
+  }
+  .footer-brand .logo{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:32px;
+    color:var(--gold-bright);
+    letter-spacing:.4em;
+    margin-bottom:18px;
+    display:block;
+  }
+  .footer-brand p{
+    color:var(--champagne-dim);
+    font-family:'Noto Serif TC',serif;
+    font-weight:300;
+    font-size:14.5px;
+    line-height:1.85;
+    max-width:280px;
+  }
+  footer h5{
+    font-family:'Italiana',serif;
+    font-size:10.5px;
+    letter-spacing:.4em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+    margin-bottom:24px;
+  }
+  footer ul{list-style:none;display:grid;gap:12px}
+  footer ul a{
+    color:var(--champagne-dim);
+    text-decoration:none;
+    font-family:'Cormorant','Noto Serif TC',serif;
+    font-size:15px;
+    transition:color .3s ease;
+  }
+  footer ul a:hover{color:var(--gold-bright)}
+  .footer-bottom{
+    max-width:1400px;
+    margin:0 auto;
+    padding-top:30px;
+    border-top:1px solid var(--rule);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    font-family:'Italiana',serif;
+    font-size:10px;
+    letter-spacing:.35em;
+    color:var(--champagne-faint);
+    text-transform:uppercase;
+  }
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.2s ease,transform 1.2s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;min-height:auto}
+    .hero-left{padding:80px 6vw 40px}
+    .hero-right{padding:60px 6vw 100px;border-left:none;border-top:1px solid var(--gold)}
+    .hero-right::before{display:none}
+    .vertical-chi{font-size:110px;writing-mode:horizontal-tb;text-align:center;padding:0}
+    .manifesto-grid{grid-template-columns:1fr;gap:40px}
+    .services-grid{grid-template-columns:1fr}
+    .service{border-right:none;border-bottom:1px solid var(--rule-gold)}
+    .objects-header{grid-template-columns:1fr;gap:30px}
+    .objects-grid{grid-template-columns:1fr 1fr}
+    .calendar-header{grid-template-columns:1fr;gap:30px}
+    .calendar-row{grid-template-columns:1fr 1fr}
+    .seasonal-box-inner{grid-template-columns:1fr;padding:50px 30px;gap:50px}
+    .seasonal-box-section{padding:80px 6vw}
+    .practitioners-grid{grid-template-columns:1fr;gap:40px}
+    .foundation-inner{grid-template-columns:1fr;gap:40px}
+    .booking-grid{grid-template-columns:1fr;gap:40px}
+    .booking-aside{border-left:none;border-top:1px solid var(--rule);padding-left:0;padding-top:40px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:40px}
+    nav{padding:18px 6vw}
+    nav ul{display:none}
+    section{padding:100px 6vw}
+  }
+
+  @keyframes breathe{
+    0%,100%{box-shadow:0 0 0 0 rgba(184,151,96,.3)}
+    50%{box-shadow:0 0 0 14px rgba(184,151,96,0)}
+  }
+  .btn-primary{animation:breathe 3.6s ease-out infinite}
+
+</style>
+</head>
+<body>
+
+<!-- Constellation watermark -->
+<svg class="constellation" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g stroke="#D9B36F" stroke-width=".4" fill="none" opacity=".7">
+    <line x1="160" y1="120" x2="280" y2="200"/>
+    <line x1="280" y1="200" x2="380" y2="160"/>
+    <line x1="380" y1="160" x2="460" y2="280"/>
+    <line x1="460" y1="280" x2="560" y2="240"/>
+    <line x1="560" y1="240" x2="640" y2="380"/>
+    <line x1="120" y1="380" x2="200" y2="450"/>
+    <line x1="200" y1="450" x2="320" y2="510"/>
+    <line x1="320" y1="510" x2="430" y2="540"/>
+    <line x1="500" y1="600" x2="640" y2="650"/>
+    <line x1="640" y1="650" x2="700" y2="540"/>
+    <line x1="100" y1="600" x2="180" y2="700"/>
+    <line x1="540" y1="100" x2="700" y2="180"/>
+    <circle cx="400" cy="400" r="220" stroke-dasharray="2 6"/>
+    <circle cx="400" cy="400" r="120" stroke-dasharray="1 4"/>
+  </g>
+  <g fill="#D9B36F">
+    <circle cx="160" cy="120" r="1.6"/>
+    <circle cx="280" cy="200" r="2.2"/>
+    <circle cx="380" cy="160" r="1.4"/>
+    <circle cx="460" cy="280" r="2.6"/>
+    <circle cx="560" cy="240" r="1.8"/>
+    <circle cx="640" cy="380" r="1.5"/>
+    <circle cx="120" cy="380" r="2"/>
+    <circle cx="200" cy="450" r="1.4"/>
+    <circle cx="320" cy="510" r="2.4"/>
+    <circle cx="430" cy="540" r="1.6"/>
+    <circle cx="500" cy="600" r="1.8"/>
+    <circle cx="640" cy="650" r="2.1"/>
+    <circle cx="700" cy="540" r="1.4"/>
+    <circle cx="100" cy="600" r="1.6"/>
+    <circle cx="180" cy="700" r="2.2"/>
+    <circle cx="540" cy="100" r="1.5"/>
+    <circle cx="700" cy="180" r="2"/>
+    <circle cx="400" cy="400" r="3"/>
+  </g>
+</svg>
+
+<div class="starfield" id="starfield"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="logo">
+    曜
+    <small>YAO · Modern Divination</small>
+  </div>
+  <ul>
+    <li><a href="#manifesto">序</a></li>
+    <li><a href="#services">服務</a></li>
+    <li><a href="#objects">器物</a></li>
+    <li><a href="#calendar">時令</a></li>
+    <li><a href="#practitioners">師資</a></li>
+    <li><a href="#foundation">公益</a></li>
+    <li><a href="#booking">預約</a></li>
+  </ul>
+</nav>
+
+<!-- Countdown strip -->
+<div class="countdown-strip" id="countdown" role="status" aria-live="polite">
+  <span class="cd-label">下一節氣</span>
+  <span class="cd-divider"></span>
+  <span class="cd-name" id="cdName">立春</span>
+  <span class="cd-divider"></span>
+  <span class="cd-days">仍有<span class="num" id="cdDays">—</span>日</span>
+  <span class="cd-divider"></span>
+  <a href="#calendar" class="cd-cta">查看推介 →</a>
+</div>
+
+<!-- HERO — emerald LEFT × ink RIGHT -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="vertical-chi">命如星圖</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-text reveal">
+      <div class="eyebrow">Established 2026 · Hong Kong</div>
+      <h1 class="hero-title-en">
+        Where ancient stars<br>
+        meet <em>modern lives.</em>
+      </h1>
+      <p class="hero-sub">
+        以中華命理為本，以當代語言為徑。<br>
+        我們以現代視角，重新詮釋東方玄學的靈性、智慧與美學。
+      </p>
+      <div class="hero-actions">
+        <a href="#booking" class="btn btn-primary">
+          預約諮詢 <span class="arrow">→</span>
+        </a>
+        <a href="#services" class="btn btn-ghost">
+          探索服務
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>SCROLL</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- 01 MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-grid">
+    <div>
+      <div class="section-num">01 · 序</div>
+      <h2 class="section-title">
+        命，是路徑。<br>
+        不是終點。
+        <em>A philosophy, not a fortune.</em>
+      </h2>
+    </div>
+    <div class="manifesto-tenets">
+      <div class="tenet reveal">
+        <div class="num">I</div>
+        <div>
+          <h3>不販賣恐懼 <em>No fear, no fate-selling</em></h3>
+          <p>玄學不是嚇你「破財」、「血光」。它是一面鏡，讓你看清自己，回到主動的位置。</p>
+        </div>
+      </div>
+      <div class="tenet reveal">
+        <div class="num">II</div>
+        <div>
+          <h3>不販賣神蹟 <em>No miracles, only mirrors</em></h3>
+          <p>我們不承諾改命。我們提供的是看清、是接受、是選擇。所有補運法事，都是儀式，不是魔術。</p>
+        </div>
+      </div>
+      <div class="tenet reveal">
+        <div class="num">III</div>
+        <div>
+          <h3>是指引，不是預言 <em>A guide, not a prophet</em></h3>
+          <p>師傅的角色，是為你指路，不是替你決斷。命盤是你的，選擇是你的，責任也是你的 — 我們陪你看清方向，並在你走到路口時，遞上一盞燈。</p>
+        </div>
+      </div>
+      <div class="tenet reveal">
+        <div class="num">IV</div>
+        <div>
+          <h3>每位諮詢者，都是回饋的開始 <em>Every reading gives back</em></h3>
+          <p>我們將每筆收益的一部分撥入慈善計劃。每一次自我探索，同時是對社會的一份溫柔回應。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 SERVICES -->
+<section id="services" class="services-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-num">02 · 服務</div>
+    <h2 class="section-title">
+      三種對話，<br>三種回應。
+      <em>Three ways to listen to your stars.</em>
+    </h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service service-1 reveal">
+      <div class="tag">Reading · 命盤</div>
+      <svg class="service-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width=".8"/>
+        <circle cx="20" cy="20" r="10" stroke="currentColor" stroke-width=".8"/>
+        <circle cx="20" cy="20" r="2" fill="currentColor"/>
+        <line x1="20" y1="2" x2="20" y2="38" stroke="currentColor" stroke-width=".5"/>
+        <line x1="2" y1="20" x2="38" y2="20" stroke="currentColor" stroke-width=".5"/>
+      </svg>
+      <h3>個人命盤導引</h3>
+      <div class="sub">Personal Astrological Reading</div>
+      <p>由認證紫微 / 八字 / 西洋占星師為你細讀命盤，聚焦事業、感情、健康、財運四大主題，附 30 頁深度書面報告。</p>
+      <div class="service-meta">
+        <div class="row"><span class="label">Duration</span><span class="val">90 min</span></div>
+        <div class="row"><span class="label">Format</span><span class="val">在線 / 線下</span></div>
+        <div class="row"><span class="label">Investment</span><span class="val price">HK$ 1,888</span></div>
+      </div>
+      <a href="#booking" class="more">了解更多 <span class="arrow">→</span></a>
+    </div>
+
+    <div class="service service-2 reveal">
+      <div class="tag">Subscription · 年度</div>
+      <svg class="service-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <path d="M20 4 L24 14 L34 14 L26 22 L30 32 L20 26 L10 32 L14 22 L6 14 L16 14 Z" stroke="currentColor" stroke-width=".8" fill="none"/>
+        <circle cx="20" cy="20" r="2" fill="currentColor"/>
+      </svg>
+      <h3>四季流年訂閱</h3>
+      <div class="sub">Seasonal Companion · Annual</div>
+      <p>每季一次 60 分鐘流年諮詢 + 每月初一電郵運程指引 + 應節法事代為安排（觀音開庫、補財庫、平安燈），陪你走過一年。</p>
+      <div class="service-meta">
+        <div class="row"><span class="label">Period</span><span class="val">12 months</span></div>
+        <div class="row"><span class="label">Sessions</span><span class="val">4 + ∞</span></div>
+        <div class="row"><span class="label">Investment</span><span class="val price">HK$ 8,800 / 年</span></div>
+      </div>
+      <a href="#booking" class="more">了解更多 <span class="arrow">→</span></a>
+    </div>
+
+    <div class="service service-3 reveal">
+      <div class="tag">Ritual · 法事</div>
+      <svg class="service-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="10" y="6" width="20" height="28" stroke="currentColor" stroke-width=".8" fill="none"/>
+        <line x1="10" y1="14" x2="30" y2="14" stroke="currentColor" stroke-width=".5"/>
+        <circle cx="20" cy="22" r="3" stroke="currentColor" stroke-width=".8"/>
+        <line x1="20" y1="25" x2="20" y2="34" stroke="currentColor" stroke-width=".5"/>
+        <line x1="14" y1="34" x2="26" y2="34" stroke="currentColor" stroke-width=".5"/>
+      </svg>
+      <h3>儀式・法事代辦</h3>
+      <div class="sub">Ceremonial Rites · By Appointment</div>
+      <p>由合作道堂主持，包括補財庫、開光、消災解厄、姻緣牽線。我們尊重儀式背後的精神價值，並全程透明、可選現場參與。</p>
+      <div class="service-meta">
+        <div class="row"><span class="label">Type</span><span class="val">8 種儀式</span></div>
+        <div class="row"><span class="label">Lead Time</span><span class="val">3–14 天</span></div>
+        <div class="row"><span class="label">Investment</span><span class="val price">HK$ 380 起</span></div>
+      </div>
+      <a href="#booking" class="more">了解更多 <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 03 OBJECTS — Sacred Objects shop -->
+<section id="objects" class="objects-section">
+  <div class="objects-header">
+    <div>
+      <div class="section-num">03 · 器物</div>
+      <h2 class="section-title">
+        每件器物，<br>都是一份指引。
+        <em>Sacred objects · made by hand.</em>
+      </h2>
+    </div>
+    <p>由本社合作之玉雕匠、香莊與道堂手作，每件器物配上能量開光程序，只為佩戴者一人。我們相信器物本身不施法，是我們將意念注入其中。</p>
+  </div>
+
+  <div class="objects-grid">
+    <div class="object reveal">
+      <span class="tag">Jadeite · 翡翠</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="jadeGrad" cx="38%" cy="38%">
+              <stop offset="0%" stop-color="#9DD9B6"/>
+              <stop offset="35%" stop-color="#5BA585"/>
+              <stop offset="75%" stop-color="#1F6649"/>
+              <stop offset="100%" stop-color="#0A2E20"/>
+            </radialGradient>
+            <radialGradient id="jadeShadow" cx="50%" cy="60%">
+              <stop offset="0%" stop-color="rgba(0,0,0,.4)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="172" rx="55" ry="6" fill="url(#jadeShadow)"/>
+          <line x1="100" y1="20" x2="78" y2="58" stroke="#5C4520" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="100" y1="20" x2="122" y2="58" stroke="#5C4520" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="100" cy="20" r="4" fill="#3A2914"/>
+          <circle cx="100" cy="105" r="62" fill="url(#jadeGrad)"/>
+          <circle cx="100" cy="105" r="22" fill="#0A1810"/>
+          <circle cx="100" cy="105" r="22" fill="none" stroke="#0A1810" stroke-width="2"/>
+          <ellipse cx="78" cy="78" rx="14" ry="9" fill="#FFFFFF" opacity=".3" transform="rotate(-30 78 78)"/>
+          <ellipse cx="74" cy="76" rx="6" ry="4" fill="#FFFFFF" opacity=".5" transform="rotate(-30 74 76)"/>
+          <text x="100" y="118" font-family="'Noto Serif TC',serif" font-size="22" fill="#0F2A1E" text-anchor="middle" font-weight="600" opacity=".75">平</text>
+          <circle cx="100" cy="105" r="62" fill="none" stroke="#D9B36F" stroke-width=".5" opacity=".4"/>
+        </svg>
+      </div>
+      <h4>平安玉扣</h4>
+      <div class="obj-sub">Jadeite Peace Pendant</div>
+      <p>緬甸 A 貨翡翠手工雕製，附開光程序及紅繩。每件帶獨立認證書，配色深淺隨石本性。</p>
+      <div class="price-row">
+        <span class="price">HK$ 2,800<small>UP</small></span>
+        <a href="#booking" class="add">請示 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Agarwood · 沉香</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="brassGrad" cx="50%" cy="55%">
+              <stop offset="0%" stop-color="#E8C078"/>
+              <stop offset="50%" stop-color="#A07A3F"/>
+              <stop offset="100%" stop-color="#3A2914"/>
+            </radialGradient>
+            <radialGradient id="brassDark" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#5C4520"/>
+              <stop offset="100%" stop-color="#1A0F05"/>
+            </radialGradient>
+            <linearGradient id="smokeGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(240,235,218,0)"/>
+              <stop offset="50%" stop-color="rgba(240,235,218,.5)"/>
+              <stop offset="100%" stop-color="rgba(240,235,218,.15)"/>
+            </linearGradient>
+          </defs>
+          <path d="M100 90 Q88 70 100 50 Q112 30 95 12" stroke="url(#smokeGrad)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+          <path d="M108 92 Q120 70 105 48" stroke="url(#smokeGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".5"/>
+          <path d="M92 95 Q82 75 92 60" stroke="url(#smokeGrad)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".4"/>
+          <ellipse cx="100" cy="178" rx="48" ry="5" fill="rgba(0,0,0,.4)"/>
+          <line x1="100" y1="98" x2="100" y2="120" stroke="#3A2914" stroke-width="1.5"/>
+          <circle cx="100" cy="98" r="2.5" fill="#FF7733"/>
+          <circle cx="100" cy="98" r="4" fill="rgba(255,119,51,.4)"/>
+          <ellipse cx="100" cy="120" rx="48" ry="9" fill="url(#brassDark)"/>
+          <path d="M52 120 Q50 142 58 162 L142 162 Q150 142 148 120 Z" fill="url(#brassGrad)"/>
+          <ellipse cx="100" cy="120" rx="44" ry="7" fill="rgba(0,0,0,.3)"/>
+          <line x1="62" y1="162" x2="58" y2="180" stroke="#3A2914" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="100" y1="162" x2="100" y2="180" stroke="#3A2914" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="138" y1="162" x2="142" y2="180" stroke="#3A2914" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="80" cy="135" rx="6" ry="3" fill="rgba(255,255,255,.15)" transform="rotate(-15 80 135)"/>
+        </svg>
+      </div>
+      <h4>越南沉香薰品</h4>
+      <div class="obj-sub">Vietnamese Agarwood Set</div>
+      <p>越南芽莊產地沉香，由百年香莊壓製成線香與盤香，附青銅小香爐一只。日常焚香即為靜心儀式。</p>
+      <div class="price-row">
+        <span class="price">HK$ 880</span>
+        <a href="#booking" class="add">加入 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Compass · 羅盤</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="compassRing" cx="50%" cy="35%">
+              <stop offset="0%" stop-color="#F4D69E"/>
+              <stop offset="50%" stop-color="#B89760"/>
+              <stop offset="100%" stop-color="#5C4520"/>
+            </radialGradient>
+            <radialGradient id="compassFace" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="#1F2E22"/>
+              <stop offset="100%" stop-color="#0A1A12"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="178" rx="65" ry="6" fill="rgba(0,0,0,.4)"/>
+          <circle cx="100" cy="100" r="82" fill="url(#compassRing)"/>
+          <circle cx="100" cy="100" r="82" fill="none" stroke="#3A2914" stroke-width=".8"/>
+          <circle cx="100" cy="100" r="68" fill="url(#compassFace)"/>
+          <circle cx="100" cy="100" r="68" fill="none" stroke="#D9B36F" stroke-width=".8"/>
+          <circle cx="100" cy="100" r="52" fill="none" stroke="#D9B36F" stroke-width=".4" opacity=".5"/>
+          <g stroke="#D9B36F" stroke-width=".5" opacity=".7">
+            <line x1="100" y1="32" x2="100" y2="42"/>
+            <line x1="100" y1="158" x2="100" y2="168"/>
+            <line x1="32" y1="100" x2="42" y2="100"/>
+            <line x1="158" y1="100" x2="168" y2="100"/>
+            <line x1="52" y1="52" x2="58" y2="58"/>
+            <line x1="148" y1="52" x2="142" y2="58"/>
+            <line x1="52" y1="148" x2="58" y2="142"/>
+            <line x1="148" y1="148" x2="142" y2="142"/>
+          </g>
+          <g font-family="'Italiana',serif" font-size="11" fill="#D9B36F" text-anchor="middle">
+            <text x="100" y="56">N</text>
+            <text x="100" y="153">S</text>
+            <text x="55" y="104">W</text>
+            <text x="145" y="104">E</text>
+          </g>
+          <polygon points="100,52 95,100 100,108 105,100" fill="#D9B36F"/>
+          <polygon points="100,148 95,100 100,92 105,100" fill="#8B6F3F"/>
+          <circle cx="100" cy="100" r="6" fill="#5C4520"/>
+          <circle cx="100" cy="100" r="3" fill="#D9B36F"/>
+          <ellipse cx="78" cy="68" rx="22" ry="10" fill="#FFFFFF" opacity=".15" transform="rotate(-30 78 68)"/>
+        </svg>
+      </div>
+      <h4>黃銅星象羅盤</h4>
+      <div class="obj-sub">Brass Astrological Compass</div>
+      <p>傳統四層黃銅羅盤，可用於風水勘察或居家方位調整。每件附繁體使用手冊及一次性免費教學課程。</p>
+      <div class="price-row">
+        <span class="price">HK$ 4,200</span>
+        <a href="#booking" class="add">請示 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Talisman · 符令</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="paperGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F4E5C2"/>
+              <stop offset="60%" stop-color="#D9C49C"/>
+              <stop offset="100%" stop-color="#A88A60"/>
+            </linearGradient>
+            <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3A2914"/>
+              <stop offset="50%" stop-color="#7A5C32"/>
+              <stop offset="100%" stop-color="#3A2914"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="100" cy="178" rx="55" ry="5" fill="rgba(0,0,0,.4)"/>
+          <rect x="44" y="50" width="112" height="100" fill="url(#paperGrad)"/>
+          <rect x="44" y="50" width="112" height="100" fill="none" stroke="#8B6F3F" stroke-width=".4" opacity=".5"/>
+          <text x="100" y="115" font-family="'Noto Serif TC',serif" fill="#3A1010" text-anchor="middle" font-size="48" font-weight="700">符</text>
+          <line x1="60" y1="62" x2="140" y2="62" stroke="#5C2A1A" stroke-width=".5" opacity=".5"/>
+          <line x1="60" y1="138" x2="140" y2="138" stroke="#5C2A1A" stroke-width=".5" opacity=".5"/>
+          <rect x="120" y="125" width="18" height="18" fill="#A22F1B" rx="1"/>
+          <text x="129" y="138" font-family="'Noto Serif TC',serif" fill="#F0EBDA" text-anchor="middle" font-size="10" font-weight="700">印</text>
+          <rect x="40" y="40" width="120" height="14" rx="6" fill="url(#woodGrad)"/>
+          <rect x="40" y="40" width="120" height="14" rx="6" fill="none" stroke="#1A0F05" stroke-width=".5"/>
+          <rect x="46" y="44" width="108" height="1" fill="#1A0F05" opacity=".4"/>
+          <rect x="40" y="146" width="120" height="14" rx="6" fill="url(#woodGrad)"/>
+          <rect x="40" y="146" width="120" height="14" rx="6" fill="none" stroke="#1A0F05" stroke-width=".5"/>
+          <rect x="46" y="150" width="108" height="1" fill="#1A0F05" opacity=".4"/>
+          <ellipse cx="36" cy="47" rx="3.5" ry="6.5" fill="#5C4520"/>
+          <ellipse cx="164" cy="47" rx="3.5" ry="6.5" fill="#5C4520"/>
+          <ellipse cx="36" cy="153" rx="3.5" ry="6.5" fill="#5C4520"/>
+          <ellipse cx="164" cy="153" rx="3.5" ry="6.5" fill="#5C4520"/>
+        </svg>
+      </div>
+      <h4>手抄符令卷</h4>
+      <div class="obj-sub">Handwritten Talisman Scroll</div>
+      <p>由道堂師傅按客戶生辰八字現場手抄之符令，種類包括平安、姻緣、事業、健康四款，捲成竹軸隨身攜帶。</p>
+      <div class="price-row">
+        <span class="price">HK$ 380</span>
+        <a href="#booking" class="add">加入 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Jewellery · 開光</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="braceJade" cx="35%" cy="35%">
+              <stop offset="0%" stop-color="#9DD9B6"/>
+              <stop offset="60%" stop-color="#3A8160"/>
+              <stop offset="100%" stop-color="#0A2E20"/>
+            </radialGradient>
+            <radialGradient id="braceCream" cx="35%" cy="35%">
+              <stop offset="0%" stop-color="#FFFEF5"/>
+              <stop offset="100%" stop-color="#C8B084"/>
+            </radialGradient>
+            <radialGradient id="braceRed" cx="35%" cy="35%">
+              <stop offset="0%" stop-color="#E55A4A"/>
+              <stop offset="100%" stop-color="#5C0F05"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="178" rx="60" ry="5" fill="rgba(0,0,0,.4)"/>
+          <circle cx="100" cy="100" r="55" fill="none" stroke="#5C2A1A" stroke-width="2.5"/>
+          <circle cx="100" cy="45" r="9" fill="url(#braceJade)"/>
+          <circle cx="139" cy="61" r="8.5" fill="url(#braceCream)"/>
+          <circle cx="155" cy="100" r="9" fill="url(#braceJade)"/>
+          <circle cx="139" cy="139" r="8.5" fill="url(#braceCream)"/>
+          <circle cx="100" cy="155" r="11" fill="url(#braceRed)"/>
+          <circle cx="61" cy="139" r="8.5" fill="url(#braceCream)"/>
+          <circle cx="45" cy="100" r="9" fill="url(#braceJade)"/>
+          <circle cx="61" cy="61" r="8.5" fill="url(#braceCream)"/>
+          <circle cx="100" cy="45" r="3" fill="#FFFFFF" opacity=".5"/>
+          <circle cx="155" cy="100" r="3" fill="#FFFFFF" opacity=".5"/>
+          <circle cx="100" cy="155" r="3.5" fill="#FFC8B0" opacity=".6"/>
+          <text x="100" y="160" font-family="'Noto Serif TC',serif" font-size="9" fill="#FFEEE0" text-anchor="middle" font-weight="700">福</text>
+        </svg>
+      </div>
+      <h4>開光紅繩玉珠手鏈</h4>
+      <div class="obj-sub">Blessed Jade & Crimson Bracelet</div>
+      <p>翡翠 + 蜜蠟珠交錯，紅繩主珠刻「福」字。每件由道堂師傅按生辰開光，並附開光證明卡及收納錦盒。</p>
+      <div class="price-row">
+        <span class="price">HK$ 1,580</span>
+        <a href="#booking" class="add">加入 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Feng Shui · 擺件</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="toadGrad" cx="50%" cy="35%">
+              <stop offset="0%" stop-color="#F4D69E"/>
+              <stop offset="55%" stop-color="#A07A3F"/>
+              <stop offset="100%" stop-color="#3A2914"/>
+            </radialGradient>
+            <radialGradient id="coinGrad" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="#F4D69E"/>
+              <stop offset="100%" stop-color="#8B6F3F"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="180" rx="60" ry="6" fill="rgba(0,0,0,.4)"/>
+          <ellipse cx="100" cy="170" rx="58" ry="9" fill="#5C4520"/>
+          <ellipse cx="100" cy="167" rx="55" ry="6" fill="url(#coinGrad)"/>
+          <circle cx="68" cy="167" r="6" fill="#D9B36F" stroke="#5C4520" stroke-width=".5"/>
+          <rect x="65.5" y="164.5" width="5" height="5" fill="#1A0F05"/>
+          <circle cx="132" cy="167" r="6" fill="#D9B36F" stroke="#5C4520" stroke-width=".5"/>
+          <rect x="129.5" y="164.5" width="5" height="5" fill="#1A0F05"/>
+          <ellipse cx="60" cy="148" rx="14" ry="9" fill="url(#toadGrad)"/>
+          <ellipse cx="140" cy="148" rx="14" ry="9" fill="url(#toadGrad)"/>
+          <ellipse cx="100" cy="155" rx="15" ry="9" fill="url(#toadGrad)"/>
+          <ellipse cx="100" cy="120" rx="58" ry="36" fill="url(#toadGrad)"/>
+          <circle cx="78" cy="105" r="2.5" fill="#5C4520"/>
+          <circle cx="100" cy="100" r="2.5" fill="#5C4520"/>
+          <circle cx="122" cy="105" r="2.5" fill="#5C4520"/>
+          <circle cx="88" cy="118" r="2.5" fill="#5C4520"/>
+          <circle cx="112" cy="118" r="2.5" fill="#5C4520"/>
+          <ellipse cx="100" cy="88" rx="38" ry="22" fill="url(#toadGrad)"/>
+          <ellipse cx="82" cy="80" rx="9" ry="7" fill="#1A0F05"/>
+          <ellipse cx="118" cy="80" rx="9" ry="7" fill="#1A0F05"/>
+          <circle cx="84" cy="78" r="3" fill="#D9B36F"/>
+          <circle cx="120" cy="78" r="3" fill="#D9B36F"/>
+          <circle cx="85" cy="77" r="1.2" fill="#FFFEF5"/>
+          <circle cx="121" cy="77" r="1.2" fill="#FFFEF5"/>
+          <circle cx="100" cy="98" r="13" fill="url(#coinGrad)" stroke="#5C4520" stroke-width=".8"/>
+          <rect x="94.5" y="92.5" width="11" height="11" fill="#1A0F05"/>
+          <ellipse cx="80" cy="65" rx="20" ry="6" fill="#FFFFFF" opacity=".15" transform="rotate(-15 80 65)"/>
+        </svg>
+      </div>
+      <h4>三腳金蟾招財擺件</h4>
+      <div class="obj-sub">Three-Legged Money Toad</div>
+      <p>傳統黃銅鑄造、手工拋光，銜古錢蹲坐金錢之上。每件由師傅入靈點睛，附擺位指引手冊。建議放於財位或店面門口斜對。</p>
+      <div class="price-row">
+        <span class="price">HK$ 2,200</span>
+        <a href="#booking" class="add">請示 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Ritual · 儀式</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="pouchGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E8DCB8"/>
+              <stop offset="100%" stop-color="#A88A60"/>
+            </linearGradient>
+            <radialGradient id="citrusGrad" cx="40%" cy="40%">
+              <stop offset="0%" stop-color="#F8E8A0"/>
+              <stop offset="100%" stop-color="#A07A3F"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="180" rx="55" ry="5" fill="rgba(0,0,0,.4)"/>
+          <path d="M 65 75 L 60 165 Q 60 172 68 172 L 132 172 Q 140 172 140 165 L 135 75 Z" fill="url(#pouchGrad)" stroke="#5C4520" stroke-width=".8"/>
+          <line x1="68" y1="100" x2="132" y2="100" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="68" y1="115" x2="132" y2="115" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="68" y1="130" x2="132" y2="130" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="68" y1="145" x2="132" y2="145" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="78" y1="80" x2="78" y2="170" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="100" y1="80" x2="100" y2="170" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <line x1="122" y1="80" x2="122" y2="170" stroke="#A88A60" stroke-width=".4" opacity=".6"/>
+          <path d="M 65 75 Q 100 60 135 75" fill="none" stroke="#5C4520" stroke-width="1"/>
+          <path d="M 70 75 Q 100 65 130 75" fill="none" stroke="#3A2914" stroke-width="1.5"/>
+          <path d="M 100 65 Q 95 50 88 40" stroke="#3A2914" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 88 42 Q 78 38 72 32" stroke="#5BA585" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="68" cy="29" rx="7" ry="3.5" fill="#3A8160" transform="rotate(-30 68 29)"/>
+          <ellipse cx="76" cy="36" rx="6" ry="3" fill="#5BA585" transform="rotate(-20 76 36)"/>
+          <path d="M 100 65 Q 105 50 112 40" stroke="#3A2914" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 112 42 Q 122 38 128 32" stroke="#5BA585" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="132" cy="29" rx="7" ry="3.5" fill="#3A8160" transform="rotate(30 132 29)"/>
+          <ellipse cx="124" cy="36" rx="6" ry="3" fill="#5BA585" transform="rotate(20 124 36)"/>
+          <circle cx="100" cy="125" r="16" fill="url(#citrusGrad)" stroke="#8B6F3F" stroke-width=".8"/>
+          <g stroke="#A07A3F" stroke-width=".6" opacity=".7">
+            <line x1="100" y1="109" x2="100" y2="141"/>
+            <line x1="84" y1="125" x2="116" y2="125"/>
+            <line x1="89" y1="114" x2="111" y2="136"/>
+            <line x1="111" y1="114" x2="89" y2="136"/>
+          </g>
+          <circle cx="100" cy="125" r="3" fill="#F8E8A0"/>
+        </svg>
+      </div>
+      <h4>柚子葉淨身浴包套裝</h4>
+      <div class="obj-sub">Pomelo Leaf Cleansing Bath Set</div>
+      <p>道家淨身配方：柚葉、香茅、艾草、紅花等七味草本，配合年運使用。3 包入禮盒裝，附使用儀軌小冊及手寫說明書。</p>
+      <div class="price-row">
+        <span class="price">HK$ 480</span>
+        <a href="#booking" class="add">加入 →</a>
+      </div>
+    </div>
+
+    <div class="object reveal">
+      <span class="tag">Seasonal · 時令</span>
+      <div class="thumb">
+        <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="boxRed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D44225"/>
+              <stop offset="100%" stop-color="#822010"/>
+            </linearGradient>
+            <linearGradient id="boxLid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E55A40"/>
+              <stop offset="100%" stop-color="#A2301B"/>
+            </linearGradient>
+            <linearGradient id="ribbonGold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F4D69E"/>
+              <stop offset="50%" stop-color="#D9B36F"/>
+              <stop offset="100%" stop-color="#8B6F3F"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="100" cy="178" rx="60" ry="5" fill="rgba(0,0,0,.4)"/>
+          <rect x="40" y="78" width="120" height="92" fill="url(#boxRed)" stroke="#5C0F05" stroke-width=".8"/>
+          <rect x="36" y="68" width="128" height="20" fill="url(#boxLid)" stroke="#5C0F05" stroke-width=".8"/>
+          <rect x="36" y="86" width="128" height="2" fill="#5C0F05" opacity=".6"/>
+          <rect x="92" y="68" width="16" height="102" fill="url(#ribbonGold)"/>
+          <rect x="92" y="68" width="16" height="102" fill="none" stroke="#8B6F3F" stroke-width=".4"/>
+          <rect x="36" y="118" width="128" height="14" fill="url(#ribbonGold)"/>
+          <rect x="36" y="118" width="128" height="14" fill="none" stroke="#8B6F3F" stroke-width=".4"/>
+          <path d="M 92 68 Q 72 48 60 60 Q 78 70 92 68 Z" fill="url(#ribbonGold)" stroke="#8B6F3F" stroke-width=".4"/>
+          <path d="M 108 68 Q 128 48 140 60 Q 122 70 108 68 Z" fill="url(#ribbonGold)" stroke="#8B6F3F" stroke-width=".4"/>
+          <ellipse cx="100" cy="68" rx="10" ry="6" fill="#8B6F3F"/>
+          <g transform="translate(100 100)">
+            <ellipse cx="0" cy="2" rx="16" ry="5" fill="#F0EBDA" opacity=".95"/>
+            <path d="M -12 0 Q -10 -12 0 -14" stroke="#F0EBDA" stroke-width="2" fill="none" opacity=".85"/>
+            <path d="M 12 0 Q 10 -12 0 -14" stroke="#F0EBDA" stroke-width="2" fill="none" opacity=".85"/>
+            <path d="M -7 0 Q -5 -10 0 -12" stroke="#F0EBDA" stroke-width="1.6" fill="none" opacity=".75"/>
+            <path d="M 7 0 Q 5 -10 0 -12" stroke="#F0EBDA" stroke-width="1.6" fill="none" opacity=".75"/>
+            <ellipse cx="0" cy="-3" rx="3" ry="6" fill="#F0EBDA" opacity=".7"/>
+          </g>
+          <text x="100" y="158" font-family="'Noto Serif TC',serif" font-size="20" fill="#F4D69E" text-anchor="middle" font-weight="700">福</text>
+          <line x1="100" y1="170" x2="100" y2="186" stroke="#D9B36F" stroke-width="1.5"/>
+          <ellipse cx="100" cy="190" rx="4" ry="6" fill="#D9B36F"/>
+          <ellipse cx="60" cy="80" rx="14" ry="3" fill="rgba(255,255,255,.2)"/>
+        </svg>
+      </div>
+      <h4>觀音開庫禮包</h4>
+      <div class="obj-sub">Guan Yin Treasury Ceremonial Set</div>
+      <p>傳統觀音開庫法事代辦及實物禮盒：含寶燭一對、開庫疏文（按生辰填寫）、紅金紅包、福袋、儀軌指引。每年春秋限定。</p>
+      <div class="price-row">
+        <span class="price">HK$ 680</span>
+        <a href="#booking" class="add">請示 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="objects-footer">
+    <a href="#booking" class="btn btn-ghost">瀏覽更多器物 <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- 04 CALENDAR — Seasonal SKUs -->
+<section id="calendar" class="calendar-section">
+  <div class="calendar-header">
+    <div>
+      <div class="section-num">04 · 時令</div>
+      <h2 class="section-title">
+        節氣是天，<br>命理是人。
+        <em>The year unfolds · in twelve gates.</em>
+      </h2>
+    </div>
+    <p>從立春到冬至，東方文化每一個節氣都是一道靈性閘口。我們按二十四節氣與重要法事日子，整理 12 個年度節點，每節皆有對應之服務或器物推介。</p>
+  </div>
+
+  <!-- 春 -->
+  <div class="calendar-quarter-label">春 · Spring</div>
+  <div class="calendar-row">
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">FEB</span>
+          <span class="day">04</span>
+        </div>
+        <div class="cal-season"><span class="ch">立春</span>Beginning</div>
+      </div>
+      <h4>立春</h4>
+      <div class="name-en">Lichun · The Year Begins</div>
+      <p class="meaning">立春乃新一輪歲運啟動之日。傳統視為轉換命盤宮位之分水嶺，宜定方向、立志願、補運。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">流年命盤導引</div>
+        </div>
+        <div class="cal-sku-price">$1,888</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">FEB</span>
+          <span class="day">26</span>
+        </div>
+        <div class="cal-season"><span class="ch">觀音開庫</span>Treasury</div>
+      </div>
+      <h4>觀音開庫</h4>
+      <div class="name-en">Guan Yin Treasury Day</div>
+      <p class="meaning">農曆正月廿六，傳觀音菩薩於此日開啟天庭金庫，信眾上香借庫，年內加倍奉還。本社代為登記、上香、燒疏文。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">觀音開庫禮包</div>
+        </div>
+        <div class="cal-sku-price">$680</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">MAR</span>
+          <span class="day">06</span>
+        </div>
+        <div class="cal-season"><span class="ch">驚蟄</span>Awakening</div>
+      </div>
+      <h4>驚蟄</h4>
+      <div class="name-en">Jingzhe · Awakening</div>
+      <p class="meaning">春雷喚醒蟄伏，亦象徵口舌是非萌動。傳統做「打小人」儀式，象徵性地驅除生活中的小人與雜訊。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">手抄符令卷（防小人）</div>
+        </div>
+        <div class="cal-sku-price">$380</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 夏 -->
+  <div class="calendar-quarter-label">夏 · Summer</div>
+  <div class="calendar-row">
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">APR</span>
+          <span class="day">04</span>
+        </div>
+        <div class="cal-season"><span class="ch">清明</span>Remembrance</div>
+      </div>
+      <h4>清明</h4>
+      <div class="name-en">Qingming · Day of Remembrance</div>
+      <p class="meaning">慎終追遠之節。本社開設專屬哀傷輔導講座，並為無法親身祭祖之家庭代為上香、燒衣。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">沉香拜祭套裝</div>
+        </div>
+        <div class="cal-sku-price">$880</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">JUN</span>
+          <span class="day">10</span>
+        </div>
+        <div class="cal-season"><span class="ch">端午</span>Dragon Boat</div>
+      </div>
+      <h4>端午</h4>
+      <div class="name-en">Duanwu · Cleansing Festival</div>
+      <p class="meaning">農曆五月初五。古人視五月為「毒月」，端午掛艾草、佩香囊以驅邪納福。今人取其淨身、清宅之意。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">柚子葉淨身浴包</div>
+        </div>
+        <div class="cal-sku-price">$480</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">JUL</span>
+          <span class="day">15</span>
+        </div>
+        <div class="cal-season"><span class="ch">夏至</span>Solstice</div>
+      </div>
+      <h4>夏至</h4>
+      <div class="name-en">Xiazhi · Year's Apex</div>
+      <p class="meaning">陽氣至極之日，亦是上半年運勢之檢核點。建議於此時進行年中流年複盤，調整下半年方向。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">四季流年訂閱</div>
+        </div>
+        <div class="cal-sku-price">$8,800<small style="font-size:11px;color:var(--champagne-faint);letter-spacing:.3em;margin-left:4px">/年</small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 秋 -->
+  <div class="calendar-quarter-label">秋 · Autumn</div>
+  <div class="calendar-row">
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">AUG</span>
+          <span class="day">10</span>
+        </div>
+        <div class="cal-season"><span class="ch">七夕</span>Lover's Day</div>
+      </div>
+      <h4>七夕</h4>
+      <div class="name-en">Qixi · Festival of Lovers</div>
+      <p class="meaning">農曆七月初七，牛郎織女鵲橋相會。傳統女子於此日祈巧、祈緣。今人取其姻緣、感情關係之祝福。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">紅繩玉珠手鏈（情緣）</div>
+        </div>
+        <div class="cal-sku-price">$1,580</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">AUG</span>
+          <span class="day">18</span>
+        </div>
+        <div class="cal-season"><span class="ch">中元</span>Spirit Feast</div>
+      </div>
+      <h4>中元</h4>
+      <div class="name-en">Zhongyuan · Feast of Hungry Ghosts</div>
+      <p class="meaning">農曆七月十五。佛道兩家共認之超度日，本社為先人代燒紙金、誦經，亦為個人作淨宅儀式。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">儀式・法事代辦</div>
+        </div>
+        <div class="cal-sku-price">$380<small style="font-size:11px;color:var(--champagne-faint);letter-spacing:.3em;margin-left:4px">起</small></div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">SEP</span>
+          <span class="day">17</span>
+        </div>
+        <div class="cal-season"><span class="ch">中秋</span>Reunion</div>
+      </div>
+      <h4>中秋</h4>
+      <div class="name-en">Mid-Autumn · Reunion</div>
+      <p class="meaning">月圓人圓之夜。傳統為團圓之節，亦為陰氣最足之時，宜佩玉以調氣場、贈玉以表情誼。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">平安玉扣（送禮）</div>
+        </div>
+        <div class="cal-sku-price">$2,800<small style="font-size:11px;color:var(--champagne-faint);letter-spacing:.3em;margin-left:4px">起</small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 冬 -->
+  <div class="calendar-quarter-label">冬 · Winter</div>
+  <div class="calendar-row">
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">OCT</span>
+          <span class="day">29</span>
+        </div>
+        <div class="cal-season"><span class="ch">重陽</span>Ascending</div>
+      </div>
+      <h4>重陽</h4>
+      <div class="name-en">Chongyang · Day of Ascent</div>
+      <p class="meaning">農曆九月初九。古人此日登高避災，亦敬老。本社視為居家風水年度檢核日，建議調整擺位、補強財位。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">三腳金蟾擺件</div>
+        </div>
+        <div class="cal-sku-price">$2,200</div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">DEC</span>
+          <span class="day">22</span>
+        </div>
+        <div class="cal-season"><span class="ch">冬至</span>Solstice</div>
+      </div>
+      <h4>冬至</h4>
+      <div class="name-en">Dongzhi · Winter Solstice</div>
+      <p class="meaning">陰極陽生之日，傳統視為「一陽初動」之關鍵節點。宜補運、補財庫，為來年儲存能量。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">補財庫法事代辦</div>
+        </div>
+        <div class="cal-sku-price">$880<small style="font-size:11px;color:var(--champagne-faint);letter-spacing:.3em;margin-left:4px">起</small></div>
+      </div>
+    </div>
+
+    <div class="cal-item reveal">
+      <div class="cal-head">
+        <div class="cal-badge">
+          <span class="month">FEB</span>
+          <span class="day">02</span>
+        </div>
+        <div class="cal-season"><span class="ch">除夕</span>New Year Eve</div>
+      </div>
+      <h4>除夕</h4>
+      <div class="name-en">Chuxi · Lunar New Year's Eve</div>
+      <p class="meaning">辭舊迎新之夜。本社為 VIP 客戶提供新年命盤年度報告，並安排新春開運儀式（紅包、福袋、平安符）。</p>
+      <div class="cal-sku">
+        <div class="cal-sku-info">
+          <div class="cal-sku-label">推介 · Recommended</div>
+          <div class="cal-sku-name">VIP 年度命盤套裝</div>
+        </div>
+        <div class="cal-sku-price">$8,800</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE — Seasonal Box Subscription -->
+<section class="seasonal-box-section">
+  <div class="seasonal-box-inner">
+    <div class="seasonal-box-text">
+      <span class="badge">Featured · 訂閱限定</span>
+      <h3>四季流轉，<br>寄到家門。<br><em>The Equinox Box.</em></h3>
+      <p>四季更替，每一個節氣都是一道門。「曜・四季盒」由本社按二十四節氣精心策劃，於每季交接前郵寄到府，內含當季法器、儀軌冊、及一份手寫節氣信箋。</p>
+
+      <div class="box-features">
+        <div class="box-feature">
+          <span class="season">春</span>
+          <span class="contents">立春命盤摘要 ・ 觀音開庫禮包 ・ 驚蟄手抄符令</span>
+        </div>
+        <div class="box-feature">
+          <span class="season">夏</span>
+          <span class="contents">清明沉香拜祭包 ・ 端午柚子葉浴包 ・ 夏至流年中段檢核</span>
+        </div>
+        <div class="box-feature">
+          <span class="season">秋</span>
+          <span class="contents">七夕紅繩玉珠手鏈 ・ 中元淨宅儀軌 ・ 中秋平安玉扣</span>
+        </div>
+        <div class="box-feature">
+          <span class="season">冬</span>
+          <span class="contents">重陽風水勘察 ・ 冬至補財庫法事 ・ 除夕年運書冊</span>
+        </div>
+      </div>
+
+      <div class="seasonal-box-pricing">
+        <div class="price">HK$ 4,800<small>/年</small></div>
+        <div class="save">原價 HK$ 7,200 · 四季同訂優惠 33%</div>
+      </div>
+
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <a href="#booking" class="btn btn-primary">立即訂閱 <span class="arrow">→</span></a>
+        <a href="#calendar" class="btn btn-ghost">了解節氣</a>
+      </div>
+    </div>
+
+    <div class="seasonal-box-visual">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1F4534"/>
+            <stop offset="100%" stop-color="#0A2A20"/>
+          </linearGradient>
+          <linearGradient id="boxLid2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2A5A45"/>
+            <stop offset="100%" stop-color="#15402F"/>
+          </linearGradient>
+          <linearGradient id="ribbonGold2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F4D69E"/>
+            <stop offset="50%" stop-color="#D9B36F"/>
+            <stop offset="100%" stop-color="#8B6F3F"/>
+          </linearGradient>
+          <radialGradient id="glow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="rgba(217,179,111,.3)"/>
+            <stop offset="100%" stop-color="rgba(217,179,111,0)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Glow -->
+        <circle cx="200" cy="200" r="180" fill="url(#glow)"/>
+
+        <!-- Stack of 4 boxes (one per season), staggered -->
+        <!-- Box 4 (back/top - winter) -->
+        <g transform="translate(140 90)">
+          <ellipse cx="60" cy="100" rx="70" ry="6" fill="rgba(0,0,0,.4)"/>
+          <rect x="0" y="22" width="120" height="80" fill="url(#boxFront)" stroke="#072218" stroke-width="1"/>
+          <rect x="-3" y="14" width="126" height="14" fill="url(#boxLid2)" stroke="#072218" stroke-width="1"/>
+          <rect x="55" y="14" width="10" height="88" fill="url(#ribbonGold2)"/>
+          <rect x="0" y="58" width="120" height="8" fill="url(#ribbonGold2)"/>
+          <text x="60" y="80" font-family="'Noto Serif TC',serif" font-size="18" fill="#F0EBDA" text-anchor="middle" font-weight="300" opacity=".85">冬</text>
+        </g>
+
+        <!-- Box 3 (autumn) -->
+        <g transform="translate(110 150)">
+          <ellipse cx="65" cy="120" rx="80" ry="7" fill="rgba(0,0,0,.45)"/>
+          <rect x="0" y="22" width="140" height="100" fill="url(#boxFront)" stroke="#072218" stroke-width="1"/>
+          <rect x="-3" y="14" width="146" height="16" fill="url(#boxLid2)" stroke="#072218" stroke-width="1"/>
+          <rect x="65" y="14" width="12" height="108" fill="url(#ribbonGold2)"/>
+          <rect x="0" y="68" width="140" height="10" fill="url(#ribbonGold2)"/>
+          <text x="71" y="98" font-family="'Noto Serif TC',serif" font-size="22" fill="#F0EBDA" text-anchor="middle" font-weight="300" opacity=".9">秋</text>
+        </g>
+
+        <!-- Box 2 (summer) -->
+        <g transform="translate(80 220)">
+          <ellipse cx="80" cy="135" rx="95" ry="8" fill="rgba(0,0,0,.5)"/>
+          <rect x="0" y="22" width="170" height="115" fill="url(#boxFront)" stroke="#072218" stroke-width="1"/>
+          <rect x="-3" y="14" width="176" height="18" fill="url(#boxLid2)" stroke="#072218" stroke-width="1"/>
+          <rect x="80" y="14" width="14" height="123" fill="url(#ribbonGold2)"/>
+          <rect x="0" y="80" width="170" height="11" fill="url(#ribbonGold2)"/>
+          <text x="87" y="116" font-family="'Noto Serif TC',serif" font-size="26" fill="#F0EBDA" text-anchor="middle" font-weight="300" opacity=".95">夏</text>
+        </g>
+
+        <!-- Box 1 (front/bottom - spring) — accent box -->
+        <g transform="translate(60 295)">
+          <ellipse cx="100" cy="92" rx="115" ry="9" fill="rgba(0,0,0,.55)"/>
+          <rect x="0" y="-10" width="200" height="100" fill="url(#boxFront)" stroke="#072218" stroke-width="1"/>
+          <rect x="-3" y="-18" width="206" height="20" fill="url(#boxLid2)" stroke="#072218" stroke-width="1"/>
+          <rect x="93" y="-18" width="16" height="108" fill="url(#ribbonGold2)"/>
+          <rect x="0" y="40" width="200" height="13" fill="url(#ribbonGold2)"/>
+          <!-- Bow -->
+          <path d="M 93 -18 Q 70 -38 56 -28 Q 80 -18 93 -18" fill="url(#ribbonGold2)" stroke="#8B6F3F" stroke-width=".5"/>
+          <path d="M 109 -18 Q 132 -38 146 -28 Q 122 -18 109 -18" fill="url(#ribbonGold2)" stroke="#8B6F3F" stroke-width=".5"/>
+          <ellipse cx="101" cy="-15" rx="10" ry="5" fill="#8B6F3F"/>
+          <text x="101" y="76" font-family="'Noto Serif TC',serif" font-size="32" fill="#F4D69E" text-anchor="middle" font-weight="500">春</text>
+        </g>
+
+        <!-- Sparkle accents -->
+        <circle cx="80" cy="120" r="2" fill="#F4D69E" opacity=".7"/>
+        <circle cx="320" cy="100" r="1.5" fill="#F4D69E" opacity=".5"/>
+        <circle cx="340" cy="280" r="2" fill="#F4D69E" opacity=".6"/>
+        <circle cx="60" cy="280" r="1.5" fill="#F4D69E" opacity=".5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PRACTITIONERS -->
+<section id="practitioners" class="practitioners-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-num">05 · 師資</div>
+    <h2 class="section-title">
+      不為你決斷，<br>是為你指引。
+      <em>To guide, not to decide.</em>
+    </h2>
+  </div>
+
+  <div class="practitioners-grid">
+    <div class="practitioner reveal">
+      <div class="portrait">
+        <div class="badge">Astrologer · 占星</div>
+        <div class="glyph">星</div>
+      </div>
+      <h4>Tasha 謝</h4>
+      <div class="role">Astrologer · 西洋占星</div>
+      <p class="bio">25K 跟隨者的香港占星師，專長事業、感情與靈性整合。為「曜」客戶提供深度個案諮詢。</p>
+    </div>
+
+    <div class="practitioner reveal">
+      <div class="portrait">
+        <div class="badge">Master · 紫微</div>
+        <div class="glyph">命</div>
+      </div>
+      <h4>簡少年</h4>
+      <div class="role">Master · 紫微斗數</div>
+      <p class="bio">119K 跟隨者的命理新世代代表，著有《人生算什麼》。為「曜」VIP 客戶提供命盤級別解讀。</p>
+    </div>
+
+    <div class="practitioner reveal">
+      <div class="portrait">
+        <div class="badge">In-house · 本社</div>
+        <div class="glyph">道</div>
+      </div>
+      <h4>本社駐店師傅</h4>
+      <div class="role">Resident Master · 八字 / 法事</div>
+      <p class="bio">擁逾二十年道家修為，主理紅磡道堂法事，平日以低調、嚴謹著稱。為一般諮詢者提供傳統服務。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 FOUNDATION -->
+<section id="foundation" class="foundation">
+  <div class="foundation-inner">
+    <div class="foundation-visual reveal">
+      <div class="seal">
+        回饋<br>所行
+        <small>Giving · By Design</small>
+      </div>
+    </div>
+    <div class="foundation-text">
+      <div class="section-num">06 · 公益</div>
+      <h2 class="section-title">
+        每筆諮詢，<br>同時是一份回饋。
+        <em>Every reading gives back.</em>
+      </h2>
+      <p>我們相信，靈性的探索若停留在自身，便缺一份完整。「曜」將每筆服務收益的一部分穩定撥入慈善計劃，由獨立董事會監察捐款用途，每年向客戶公開報告。</p>
+      <div class="stat">
+        <div class="num">15%</div>
+        <div class="label">每筆收益<br>撥入慈善計劃</div>
+      </div>
+      <div class="stat">
+        <div class="num">100%</div>
+        <div class="label">捐款帳目<br>每年透明公開</div>
+      </div>
+      <div class="stat">
+        <div class="num">∞</div>
+        <div class="label">每位諮詢者<br>同時是一位給予者</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 BOOKING -->
+<section id="booking" class="booking-section">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-num">07 · 預約</div>
+    <h2 class="section-title">
+      開始一次<br>對話。
+      <em>Begin your conversation.</em>
+    </h2>
+  </div>
+
+  <div class="booking-grid">
+    <form class="booking-form reveal" onsubmit="event.preventDefault();alert('感謝你 — 我們將於 24 小時內透過 WhatsApp 與你聯繫。');">
+      <div class="form-group">
+        <label>姓名 · NAME</label>
+        <input type="text" placeholder="如何稱呼你" required>
+      </div>
+      <div class="form-group">
+        <label>聯絡 · WHATSAPP</label>
+        <input type="tel" placeholder="+852 9XXX XXXX" required>
+      </div>
+      <div class="form-group">
+        <label>出生資料 · BIRTH (可選)</label>
+        <input type="text" placeholder="YYYY/MM/DD HH:MM 出生地點">
+      </div>
+      <div class="form-group">
+        <label>感興趣的內容 · INTEREST</label>
+        <select>
+          <option>個人命盤導引</option>
+          <option>四季流年訂閱</option>
+          <option>儀式・法事代辦</option>
+          <option>器物・玉器・沉香</option>
+          <option>未確定，希望先了解</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>想探討什麼 · MESSAGE</label>
+        <textarea placeholder="你想透過命理理解什麼？（可選）"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="margin-top:14px">
+        送出查詢 <span class="arrow">→</span>
+      </button>
+    </form>
+
+    <aside class="booking-aside reveal">
+      <h4>諮詢前須知</h4>
+      <p>所有首次諮詢者均獲贈 15 分鐘免費電話了解環節。我們不接受未滿 18 歲、或健康／法律相關之專業諮詢。所有對話嚴格保密，命盤數據僅本人擁有。</p>
+      <h4 style="margin-top:40px">直接聯絡</h4>
+      <div class="contact-row">
+        <span class="label">WhatsApp</span>
+        <span class="val">+852 5XXX XXXX</span>
+      </div>
+      <div class="contact-row">
+        <span class="label">Instagram</span>
+        <span class="val">@yao.divination</span>
+      </div>
+      <div class="contact-row">
+        <span class="label">Email</span>
+        <span class="val">hello@yao.hk</span>
+      </div>
+      <div class="contact-row">
+        <span class="label">門店</span>
+        <span class="val">香港銅鑼灣</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">曜</span>
+      <p>香港當代命理品牌。我們相信靈性可以是現代的、誠實的、回饋社會的。</p>
+    </div>
+    <div>
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">個人命盤導引</a></li>
+        <li><a href="#services">四季流年訂閱</a></li>
+        <li><a href="#services">儀式・法事</a></li>
+        <li><a href="#services">企業命理顧問</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Objects</h5>
+      <ul>
+        <li><a href="#objects">翡翠 · 開光珠寶</a></li>
+        <li><a href="#objects">沉香 · 香道器物</a></li>
+        <li><a href="#objects">羅盤 · 風水擺件</a></li>
+        <li><a href="#objects">符令 · 居家儀式</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">小紅書</a></li>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 曜 · YAO Divination Hong Kong</span>
+    <span>BR No. ──</span>
+  </div>
+</footer>
+
+<script>
+  const starfield = document.getElementById('starfield');
+  const colors = ['#D9B36F','#F0EBDA','#B89760'];
+  for(let i = 0; i < 90; i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 1.7 + .5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+    s.style.setProperty('--max-op', (Math.random() * .5 + .25).toFixed(2));
+    s.style.animationDelay = (Math.random() * 5) + 's';
+    s.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    starfield.appendChild(s);
+  }
+
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold:.12, rootMargin:'-50px'});
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Countdown to next 節氣
+  const seasons = [
+    {date:'2026-02-04', name:'立春'},
+    {date:'2026-02-26', name:'觀音開庫'},
+    {date:'2026-03-06', name:'驚蟄'},
+    {date:'2026-04-04', name:'清明'},
+    {date:'2026-06-10', name:'端午'},
+    {date:'2026-07-15', name:'夏至'},
+    {date:'2026-08-10', name:'七夕'},
+    {date:'2026-08-18', name:'中元'},
+    {date:'2026-09-17', name:'中秋'},
+    {date:'2026-10-29', name:'重陽'},
+    {date:'2026-12-22', name:'冬至'},
+    {date:'2027-02-02', name:'除夕'},
+    {date:'2027-02-04', name:'立春'},
+    {date:'2027-02-26', name:'觀音開庫'}
+  ];
+  function updateCountdown(){
+    const now = new Date();
+    const next = seasons.find(s => new Date(s.date + 'T00:00:00') > now);
+    if(!next) return;
+    const diff = Math.ceil((new Date(next.date + 'T00:00:00') - now) / (1000*60*60*24));
+    const nameEl = document.getElementById('cdName');
+    const daysEl = document.getElementById('cdDays');
+    if(nameEl) nameEl.textContent = next.name;
+    if(daysEl) daysEl.textContent = diff;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60*60*1000); // refresh hourly
+
+  // Calendar cards link to seasonal hub pages
+  const calLinks = [
+    'spring.html#lichun','spring.html#treasury','spring.html#jingzhe',
+    'summer.html#qingming','summer.html#duanwu','summer.html#xiazhi',
+    'autumn.html#qixi','autumn.html#zhongyuan','autumn.html#midautumn',
+    'winter.html#chongyang','winter.html#dongzhi','winter.html#chuxi'
+  ];
+  document.querySelectorAll('.cal-item').forEach((el, i) => {
+    if(calLinks[i]){
+      el.addEventListener('click', () => { window.location.href = calLinks[i]; });
+    }
+  });
+</script>
+</body>
+</html>

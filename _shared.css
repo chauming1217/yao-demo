@@ -1,0 +1,387 @@
+/* Shared styles for seasonal hub pages */
+:root{
+  --bg:#0E4534;
+  --bg-deep:#0A3528;
+  --bg-soft:#11553F;
+  --bg-shadow:#062018;
+  --ink:#0F1812;
+  --ink-deep:#0A120D;
+  --ink-soft:#16221A;
+  --gold:#B89760;
+  --gold-bright:#D9B36F;
+  --gold-deep:#8B6F3F;
+  --champagne:#F0EBDA;
+  --champagne-dim:#B0A88A;
+  --champagne-faint:#7A7461;
+  --rule:rgba(240,235,218,.12);
+  --rule-strong:rgba(240,235,218,.22);
+  --rule-gold:rgba(184,151,96,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--champagne);
+  font-family:'Cormorant','Noto Serif TC',serif;
+  font-size:17px;
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+body::after{
+  content:'';
+  position:fixed;inset:0;z-index:99;pointer-events:none;
+  background:radial-gradient(ellipse at top right,rgba(217,179,111,.08),transparent 50%),radial-gradient(ellipse at bottom left,rgba(0,0,0,.4),transparent 60%);
+}
+
+/* Top bar / breadcrumb */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 6vw;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(to bottom,rgba(14,69,52,.85),rgba(14,69,52,.3));
+  border-bottom:1px solid var(--rule-gold);
+  font-family:'Italiana',serif;
+  font-size:10.5px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+}
+.topbar .logo{
+  font-family:'Noto Serif TC',serif;
+  font-weight:700;
+  font-size:22px;
+  letter-spacing:.4em;
+  color:var(--gold-bright);
+}
+.topbar .crumb{color:var(--champagne-dim)}
+.topbar .crumb a{color:var(--gold-bright);text-decoration:none}
+.topbar .back{
+  color:var(--champagne-dim);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  transition:gap .3s ease;
+}
+.topbar .back:hover{gap:16px;color:var(--gold-bright)}
+
+/* Hero */
+.season-hero{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:140px 6vw 80px;
+  position:relative;
+  text-align:center;
+}
+.season-hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 40%,rgba(217,179,111,.12),transparent 55%);
+  pointer-events:none;
+}
+.season-hero .glyph{
+  font-family:'Noto Serif TC',serif;
+  font-weight:200;
+  font-size:clamp(180px,25vw,360px);
+  line-height:1;
+  color:var(--champagne);
+  text-shadow:0 0 80px rgba(217,179,111,.35);
+  opacity:.95;
+  position:relative;
+  z-index:1;
+}
+.season-hero .meta{
+  position:absolute;
+  bottom:80px;left:50%;
+  transform:translateX(-50%);
+  font-family:'Italiana',serif;
+  font-size:11px;
+  letter-spacing:.5em;
+  color:var(--gold-bright);
+  text-transform:uppercase;
+}
+.season-hero .meta::before,.season-hero .meta::after{
+  content:'·';
+  margin:0 18px;
+  color:var(--gold);
+}
+.season-hero .name-en{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(36px,4vw,52px);
+  color:var(--gold-bright);
+  margin-top:-30px;
+  margin-bottom:30px;
+  letter-spacing:.05em;
+}
+.season-hero .lead{
+  font-family:'Noto Serif TC',serif;
+  font-weight:300;
+  font-size:19px;
+  line-height:1.95;
+  color:var(--champagne-dim);
+  max-width:680px;
+  margin:0 auto;
+}
+
+/* Article */
+article{
+  max-width:780px;
+  margin:0 auto;
+  padding:120px 6vw;
+}
+article p{
+  margin:0 0 24px;
+  color:var(--champagne);
+  font-family:'Noto Serif TC',serif;
+  font-weight:300;
+  font-size:17px;
+  line-height:2;
+  text-align:justify;
+}
+article p:first-of-type::first-letter{
+  font-family:'Cormorant',serif;
+  font-size:62px;
+  float:left;
+  line-height:.9;
+  margin:8px 12px 0 0;
+  color:var(--gold-bright);
+  font-weight:500;
+}
+article h2{
+  font-family:'Noto Serif TC',serif;
+  font-weight:400;
+  font-size:38px;
+  color:var(--champagne);
+  margin:64px 0 8px;
+  letter-spacing:.06em;
+  scroll-margin-top:120px;
+}
+article h2 .num{
+  font-family:'Italiana',serif;
+  font-size:14px;
+  color:var(--gold);
+  letter-spacing:.4em;
+  display:block;
+  margin-bottom:8px;
+}
+article h2 .en{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:18px;
+  color:var(--champagne-faint);
+  display:block;
+  margin-top:6px;
+  letter-spacing:.02em;
+}
+article h2::after{
+  content:'';
+  display:block;
+  width:60px;height:1px;
+  background:var(--gold);
+  margin:24px 0 28px;
+}
+article blockquote{
+  border-left:2px solid var(--gold);
+  padding:8px 0 8px 28px;
+  margin:32px 0;
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-size:21px;
+  line-height:1.7;
+  color:var(--gold-bright);
+}
+
+/* Featured SKU card inside article */
+.featured-sku{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:24px;
+  align-items:center;
+  margin:36px 0;
+  padding:24px 28px;
+  background:var(--ink-soft);
+  border:1px solid var(--rule-gold);
+  position:relative;
+}
+.featured-sku::before{
+  content:'';
+  position:absolute;
+  top:-1px;left:-1px;
+  width:24px;height:24px;
+  border:1px solid var(--gold-bright);
+  border-right:none;border-bottom:none;
+}
+.featured-sku::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;right:-1px;
+  width:24px;height:24px;
+  border:1px solid var(--gold-bright);
+  border-left:none;border-top:none;
+}
+.featured-sku .icon{
+  width:62px;height:62px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Noto Serif TC',serif;
+  font-size:24px;
+  color:var(--gold-bright);
+  font-weight:300;
+}
+.featured-sku .info .label{
+  font-family:'Italiana',serif;
+  font-size:9.5px;
+  letter-spacing:.4em;
+  color:var(--champagne-faint);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.featured-sku .info .name{
+  font-family:'Noto Serif TC',serif;
+  font-weight:500;
+  font-size:18px;
+  color:var(--champagne);
+  margin-bottom:4px;
+  letter-spacing:.06em;
+}
+.featured-sku .info .desc{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  color:var(--champagne-dim);
+  font-size:14px;
+}
+.featured-sku .price{
+  font-family:'Cormorant',serif;
+  font-size:24px;
+  color:var(--gold-bright);
+}
+.featured-sku .price small{
+  display:block;
+  font-family:'Italiana',serif;
+  font-size:9px;
+  letter-spacing:.3em;
+  color:var(--champagne-faint);
+  margin-top:4px;
+}
+
+/* Cross-season nav */
+.season-nav{
+  background:var(--ink);
+  padding:80px 6vw;
+  border-top:1px solid var(--rule-gold);
+  border-bottom:1px solid var(--rule-gold);
+}
+.season-nav-grid{
+  max-width:1280px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--rule-gold);
+  border:1px solid var(--rule-gold);
+}
+.season-nav-item{
+  background:var(--ink);
+  padding:36px 28px;
+  text-align:center;
+  text-decoration:none;
+  transition:background .4s ease;
+}
+.season-nav-item:hover{background:var(--ink-soft)}
+.season-nav-item.current{background:var(--bg-deep)}
+.season-nav-item .ch{
+  font-family:'Noto Serif TC',serif;
+  font-weight:200;
+  font-size:54px;
+  color:var(--gold-bright);
+  display:block;
+  margin-bottom:8px;
+  line-height:1;
+}
+.season-nav-item .en{
+  font-family:'Italiana',serif;
+  font-size:10px;
+  letter-spacing:.45em;
+  color:var(--champagne-dim);
+  text-transform:uppercase;
+  display:block;
+}
+
+/* CTA back to home */
+.cta-back{
+  text-align:center;
+  padding:80px 6vw 120px;
+  background:linear-gradient(180deg,var(--ink) 0%,var(--bg-deep) 100%);
+}
+.cta-back h3{
+  font-family:'Noto Serif TC',serif;
+  font-weight:300;
+  font-size:42px;
+  color:var(--champagne);
+  margin-bottom:24px;
+  letter-spacing:.04em;
+}
+.cta-back p{
+  color:var(--champagne-dim);
+  font-family:'Noto Serif TC',serif;
+  font-weight:300;
+  font-size:17px;
+  margin-bottom:36px;
+  max-width:520px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  padding:18px 32px;
+  font-family:'Italiana',serif;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:all .4s ease;
+  border:1px solid transparent;
+  cursor:pointer;
+}
+.btn-primary{background:var(--gold);color:var(--ink)}
+.btn-primary:hover{background:transparent;color:var(--gold-bright);border-color:var(--gold)}
+
+/* Footer */
+footer{
+  background:var(--ink);
+  padding:48px 6vw;
+  text-align:center;
+  font-family:'Italiana',serif;
+  font-size:10px;
+  letter-spacing:.4em;
+  color:var(--champagne-faint);
+  text-transform:uppercase;
+  border-top:1px solid var(--rule);
+}
+
+@media (max-width:780px){
+  .season-hero{min-height:60vh;padding:110px 6vw 60px}
+  article{padding:80px 6vw}
+  article h2{font-size:30px}
+  .featured-sku{grid-template-columns:auto 1fr;gap:16px}
+  .featured-sku .price{grid-column:1/-1;text-align:right}
+  .season-nav-grid{grid-template-columns:1fr 1fr}
+  .topbar .crumb{display:none}
+}
